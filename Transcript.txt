@@ -1,0 +1,4 @@
+This file should contain one of two things: Either a complete transcript
+showing the prompts and responses for any LLM use that helped you to complete
+this project, or else a statement saying that you did not use any LLM to help
+you to complete this project.
