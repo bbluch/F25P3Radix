@@ -1,0 +1,30 @@
+Sorting input.txt of size 23
+Memory pool: 1 input buffer, 256 output buffers
+Buffer size: 3496 bytes (437 records)
+Num Disk Reads: 8
+Num Disk Writes: 5
+Time is 60
+Sorting input.txt of size 23
+Memory pool: 1 input buffer, 256 output buffers
+Buffer size: 3496 bytes (437 records)
+Num Disk Reads: 8
+Num Disk Writes: 5
+Time is 69
+Sorting input.txt of size 23
+Memory pool: 1 input buffer, 256 output buffers
+Buffer size: 3496 bytes (437 records)
+Num Disk Reads: 8
+Num Disk Writes: 4
+Time is 64
+Sorting input.txt of size 24
+Memory pool: 1 input buffer, 256 output buffers
+Buffer size: 3496 bytes (437 records)
+Num Disk Reads: 8
+Num Disk Writes: 6
+Time is 69
+Sorting input.txt of size 23
+Memory pool: 1 input buffer, 256 output buffers
+Buffer size: 3496 bytes (437 records)
+Num Disk Reads: 8
+Num Disk Writes: 5
+Time is 43
