@@ -47,8 +47,9 @@ public class Radix {
      * Create a new Radix object.
      * * @param theFile
      * The RandomAccessFile to be sorted
+     * 
      * @param s
-     * The stats PrintWriter
+     *            The stats PrintWriter
      *
      * @throws IOException
      */
@@ -73,7 +74,7 @@ public class Radix {
         this.outputFile = tempFile;
 
         // 3. Write Initial Statistics
-        statsWriter.println("Data File: " + theFile.getFD().toString()); 
+        statsWriter.println("Data File: " + theFile.getFD().toString());
         statsWriter.println("File Size: " + fileSize + " bytes");
         statsWriter.println("Memory Pool Size: " + MEMORY_POOL_SIZE + " bytes ("
             + (MEMORY_POOL_SIZE / RECORD_SIZE) + " records)");
