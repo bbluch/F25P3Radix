@@ -54,35 +54,40 @@ public class Radix {
      * @throws IOException
      */
     public Radix(RandomAccessFile theFile, PrintWriter s) throws IOException {
-            this.statsWriter = s;
-            this.inputFile = theFile;
-            this.fileSize = theFile.length();
-            this.numRecords = this.fileSize / RECORD_SIZE;
-            this.numReads = 0;
-            this.numWrites = 0;
+        this.statsWriter = s;
+        this.inputFile = theFile;
+        this.fileSize = theFile.length();
+        this.numRecords = this.fileSize / RECORD_SIZE;
+        this.numReads = 0;
+        this.numWrites = 0;
 
-            // 1. Initialize Memory Pool
-            this.memoryPool = new byte[MEMORY_POOL_SIZE];
-            this.byteBuffer = ByteBuffer.wrap(memoryPool);
+        // 1. Initialize Memory Pool
+        this.memoryPool = new byte[MEMORY_POOL_SIZE];
+        this.byteBuffer = ByteBuffer.wrap(memoryPool);
 
-            // 2. Create and Open Temporary File
-            // The temp file's initial size should be 0, but it will grow to the size of the input file.
-            tempFile = new RandomAccessFile(tempFileName, "rw");
-            tempFile.setLength(fileSize); // Pre-allocate the space to match the input file size
-            this.outputFile = tempFile;
+        // 2. Create and Open Temporary File
+        // The temp file's initial size should be 0, but it will grow to the
+        // size of the input file.
+        tempFile = new RandomAccessFile(tempFileName, "rw");
+        tempFile.setLength(fileSize); // Pre-allocate the space to match the
+                                      // input file size
+        this.outputFile = tempFile;
 
-            // 3. Write Initial Statistics
-            statsWriter.println("Data File: " + theFile.getFD().toString()); // Placeholder for file name
-            statsWriter.println("File Size: " + fileSize + " bytes");
-            statsWriter.println("Memory Pool Size: " + MEMORY_POOL_SIZE + " bytes (" +
-                (MEMORY_POOL_SIZE / RECORD_SIZE) + " records)"); 
+        // 3. Write Initial Statistics
+        statsWriter.println("Data File: " + theFile.getFD().toString()); // Placeholder
+                                                                         // for
+                                                                         // file
+                                                                         // name
+        statsWriter.println("File Size: " + fileSize + " bytes");
+        statsWriter.println("Memory Pool Size: " + MEMORY_POOL_SIZE + " bytes ("
+            + (MEMORY_POOL_SIZE / RECORD_SIZE) + " records)");
 
-            // 4. Start Sort
-            radixSort();
-            
-            // 5. Clean up temporary file (Crucial!)
-            tempFile.close();
-            Files.delete(Paths.get(tempFileName));
+        // 4. Start Sort
+        radixSort();
+
+        // 5. Clean up temporary file (Crucial!)
+        tempFile.close();
+        Files.delete(Paths.get(tempFileName));
     }
 
 
