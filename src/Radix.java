@@ -28,18 +28,17 @@ public class Radix {
                                         // original file)
     private RandomAccessFile outputFile; // The file to write to (starts as temp
                                          // file)
-    private PrintWriter statsWriter;// For outputting statistics [cite: 53]
+    private PrintWriter statsWriter; // For outputting statistics [cite: 53]
     private long fileSize;
     private long numRecords;
-    private long numReads; // Number of disk reads [cite: 59]
-    private long numWrites; // Number of disk writes [cite: 60]
+    private long numReads; // Number of disk reads
+    private long numWrites; // Number of disk writes
 
     // --- Memory Pool and Buffer Management ---
-    private byte[] memoryPool;// The 900,000 byte array [cite: 15]
+    private byte[] memoryPool; // The 900,000 byte array
     private ByteBuffer byteBuffer; // Wrapper for the memoryPool for I/O
     private RandomAccessFile tempFile; // The actual temporary file handle
     private String tempFileName = "tempfile.bin"; // Name for the temporary file
-                                                  // [cite: 18]
 
     private static final int HALF_POOL_SIZE = MEMORY_POOL_SIZE / 2;
 
@@ -120,7 +119,7 @@ public class Radix {
                 // We use readFully for reliable block reads (it handles EOF
                 // checks if file size is correct)
                 inputFile.readFully(memoryPool, 0, readSize);
-                numReads++;// Count a disk read [cite: 59]
+                numReads++; // Count a disk read
 
                 inputBlock.limit(readSize);
                 IntBuffer intBuffer = inputBlock.asIntBuffer();
