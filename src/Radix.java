@@ -397,7 +397,7 @@ public class Radix {
         // file).
         // We swap one last time so `inputFile` (the original file) has the
         // sorted data, as required by RadixProj.
-        // swapFiles();
+        swapFiles();
 
         // Write final statistics
         statsWriter.println("Num Disk Reads: " + numReads);
