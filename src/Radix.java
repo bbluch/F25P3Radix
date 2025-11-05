@@ -17,7 +17,7 @@ public class Radix {
     private static final int KEY_SIZE = 4; // 4-byte integer key
     private static final int RECORD_SIZE = 8; // 8-byte record (key + data)
     private static final int MEMORY_POOL_SIZE = 900000; // 900,000 bytes working
-                                                        // memory [cite: 15]
+                                                        // memory
     private static final int RADIX = 8; // Number of bits to process per pass
     private static final int K = 4; // Number of passes for a 32-bit key (32 / 8
                                     // = 4)
@@ -28,7 +28,7 @@ public class Radix {
                                         // original file)
     private RandomAccessFile outputFile; // The file to write to (starts as temp
                                          // file)
-    private PrintWriter statsWriter; // For outputting statistics [cite: 53]
+    private PrintWriter statsWriter; // For outputting statistics
     private long fileSize;
     private long numRecords;
     private long numReads; // Number of disk reads
@@ -68,6 +68,7 @@ public class Radix {
      * @throws IOException
      */
     public Radix(RandomAccessFile theFile, PrintWriter s) throws IOException {
+        // Basic initializations
         this.statsWriter = s;
         this.inputFile = theFile;
         this.fileSize = theFile.length();
@@ -140,6 +141,7 @@ public class Radix {
                 int rtok = pass * RADIX;
                 int mask = R - 1;
 
+                // continue reading
                 for (int i = 0; i < readSize / RECORD_SIZE; i++) {
                     int key = intBuffer.get(2 * i);
                     int digit = (key >> rtok) & mask;
@@ -173,14 +175,6 @@ public class Radix {
             // which exceeds the size of 'count' and is a huge $R$-way
             // merge/buffer-pool design.
 
-            // **Compromise:** Use a small, fixed-size cache of output blocks to
-            // reduce excessive seeking.
-            // A single record write per bucket is necessary if we stick to the
-            // provided structure.
-
-            // *Reverting to the previous logic but ensuring full block reads
-            // for correctness*
-
             while (bytesRemaining > 0) {
                 int readSize = (int)Math.min(bytesRemaining, HALF_POOL_SIZE);
 
@@ -207,8 +201,7 @@ public class Radix {
                     // Write the record to its destination in the output file
                     outputFile.seek(destBytePosition[digit]);
                     outputFile.write(record);
-                    numWrites++; // Unoptimized write-per-record - REMAINS A
-                    // CRITICAL PERFORMANCE ISSUE [cite: 60]
+                    numWrites++;
 
                     // Update the next write position for this bucket
                     destBytePosition[digit] += RECORD_SIZE;
@@ -232,6 +225,10 @@ public class Radix {
     }
 
 
+    /**
+     * Helper method for swapping files between input (permanent) and
+     * temporary.
+     */
     private void swapFiles() {
         RandomAccessFile temp = inputFile;
         inputFile = outputFile;
