@@ -1,6 +1,5 @@
 import java.nio.*;
 import java.io.*;
-
 import java.nio.file.Files;
 import java.nio.file.Paths;
 // import java.util.Arrays;
@@ -17,17 +16,17 @@ public class Radix {
     private static final int KEY_SIZE = 4; // 4-byte integer key
     private static final int RECORD_SIZE = 8; // 8-byte record (key + data)
     private static final int MEMORY_POOL_SIZE = 900000; // 900,000 bytes working
-                                                        // memory
+    // memory
     private static final int RADIX = 8; // Number of bits to process per pass
     private static final int K = 4; // Number of passes for a 32-bit key (32 / 8
-                                    // = 4)
+    // = 4)
     private static final int R = 1 << RADIX; // Number of buckets (2^8 = 256)
 
     // --- I/O and Statistics Fields ---
     private RandomAccessFile inputFile; // The file to read from (starts as
-                                        // original file)
+    // original file)
     private RandomAccessFile outputFile; // The file to write to (starts as temp
-                                         // file)
+    // file)
     private PrintWriter statsWriter; // For outputting statistics
     private long fileSize;
     private long numRecords;
@@ -46,7 +45,7 @@ public class Radix {
      * Create a new Radix object.
      * * @param theFile
      * The RandomAccessFile to be sorted
-     * 
+     *
      * @param s
      *            The stats PrintWriter
      *
