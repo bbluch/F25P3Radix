@@ -3,7 +3,7 @@ import java.io.*;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
+// import java.util.Arrays;
 
 // The Radix Sort implementation
 // -------------------------------------------------------------------------
@@ -103,7 +103,9 @@ public class Radix {
         for (int pass = 0; pass < K; pass++) {
             // --- Phase 1: Count Records and Calculate Prefix Sum ---
 
-            Arrays.fill(count, 0);
+            for (int i = 0; i < R; i++) {
+                count[i] = 0;
+            }
             inputFile.seek(0);
             long bytesRemaining = fileSize;
 
