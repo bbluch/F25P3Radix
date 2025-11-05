@@ -1,0 +1,6 @@
+Sorting input.txt of size 23
+Memory Pool Size: 900000 bytes (112500 records)
+Buffer Configuration: 1 Input Buffer, 256 Output Buffers of 3496 bytes each.
+Num Disk Reads: 8
+Num Disk Writes: 5
+Time is 48
