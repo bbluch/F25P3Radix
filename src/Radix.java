@@ -99,42 +99,46 @@ public class Radix {
         Files.delete(Paths.get(tempFileName));
     }
 
+
 // ------------- FROM DSA -----------------
-// private void radixSt() {
-// // Count[i] stores number of records with digit value i
-// int[] count = new int[R];
-// int i, j, rtok;
+//    private void radixSort() {
+//        // Count[i] stores number of records with digit value i
+//        int[] count = new int[R];
+//        int i, j, rtok;
 //
-// // Buffers for I/O
-// ByteBuffer inputBlock = ByteBuffer.wrap(memoryPool, 0, HALF_POOL_SIZE);
-// ByteBuffer outputBlock = ByteBuffer.wrap(memoryPool, HALF_POOL_SIZE,
-// HALF_POOL_SIZE);
+//        // Buffers for I/O
+//        ByteBuffer inputBlock = ByteBuffer.wrap(memoryPool, 0,
+//            INPUT_BUFFER_SIZE_PHASE2);
+//        ByteBuffer outputBlock = ByteBuffer.wrap(memoryPool,
+//            INPUT_BUFFER_SIZE_PHASE2, OUTPUT_BUFFER_POOL_SIZE);
 //
+//        inputFile.read(memoryPool);
 //
-// // Loop for K passes (4 passes for 32-bit key with 8-bit radix)
-// for (i = 0; i < K; i++) {
-// for (j = 0; j < R; j++) {
-// count[j] = 0;
-// } // Initialize count
-// }
+//        // Loop for K passes (4 passes for 32-bit key with 8-bit radix)
+//        for (i = 0; i < K; i++, rtok *= R) {
+//            for (j = 0; j < R; j++) {
+//                count[j] = 0;
+//            } // Initialize count
 //
-// // After processing, count[j] will be index in B for first slot of
-// // bin j.
-// int total = MEMORY_POOL_SIZE;
-// for (j = R - 1; j >= 0; j--) {
-// total -= count[j];
-// count[j] = total;
-// }
+//            // After processing, count[j] will be index in B for first slot of
+//            // bin j.
+//            int total = memoryPool.length;
+//            for (j = R - 1; j >= 0; j--) {
+//                total -= count[j];
+//                count[j] = total;
+//            }
 //
-// // Put records into bins, working from left to right
-// for (j = 0; j < MEMORY_POOL_SIZE; j++) {
-// B[count[(A[j] / rtok) % r]] = A[j];
-// count[(A[j] / rtok) % r] = count[(A[j] / rtok) % r] + 1;
-// }
-// for (j = 0; j < A.length; j++) {
-// A[j] = B[j];
-// } // Copy B back
-// }
+//            // Put records into bins, working from left to right
+//            for (j = 0; j < MEMORY_POOL_SIZE; j++) {
+//                outputBuffers[count[(memoryPool[j] / rtok) % R]] = memoryPool[j];
+//                count[(memoryPool[j] / rtok) % R] = count[(memoryPool[j] / rtok)
+//                    % R] + 1;
+//            }
+//            for (j = 0; j < A.length; j++) {
+//                memoryPool[j] = B[j];
+//            } // Copy B back
+//        }
+//    }
 
 
     /**
