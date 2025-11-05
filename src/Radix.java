@@ -79,7 +79,7 @@ public class Radix {
         // 4. Start Sort
         radixSort();
 
-        // 5. Clean up temporary file (Crucial!)
+        // 5. Clean up temporary file
         tempFile.close();
         Files.delete(Paths.get(tempFileName));
     }
