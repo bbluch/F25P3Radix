@@ -13,7 +13,7 @@ import java.nio.file.Paths;
  */
 public class Radix {
 
-    private static final int KEY_SIZE = 4; // 4-byte integer key
+    // private static final int KEY_SIZE = 4; // 4-byte integer key
     private static final int RECORD_SIZE = 8; // 8-byte record (key + data)
     private static final int MEMORY_POOL_SIZE = 900000; // 900,000 bytes working
     // memory
@@ -40,6 +40,14 @@ public class Radix {
     private String tempFileName = "tempfile.bin"; // Name for the temporary file
 
     private static final int HALF_POOL_SIZE = MEMORY_POOL_SIZE / 2;
+    private static final int RECORDS_PER_OUTPUT_BUFFER = 219;
+
+    private static final int OUTPUT_BUFFER_BYTES = RECORDS_PER_OUTPUT_BUFFER
+        * RECORD_SIZE;
+
+    private static final int OUTPUT_BUFFER_POOL_SIZE = R * OUTPUT_BUFFER_BYTES;
+    private static final int INPUT_BUFFER_SIZE_PHASE2 = MEMORY_POOL_SIZE
+        - OUTPUT_BUFFER_POOL_SIZE;
 
     /**
      * Create a new Radix object.
@@ -73,8 +81,15 @@ public class Radix {
         this.outputFile = tempFile;
 
         // 3. Write Initial Statistics
-        statsWriter.println("Memory Pool Size: " + MEMORY_POOL_SIZE + " bytes ("
-            + (MEMORY_POOL_SIZE / RECORD_SIZE) + " records)");
+        /*
+         * statsWriter.println("Memory Pool Size: " + MEMORY_POOL_SIZE +
+         * " bytes ("
+         * + (MEMORY_POOL_SIZE / RECORD_SIZE) + " records)");
+         */
+
+        statsWriter.println("Memory Pool Size: " + MEMORY_POOL_SIZE
+            + " bytes. Phase 2 buffers: 1x" + INPUT_BUFFER_SIZE_PHASE2
+            + "B (read) + 256x" + OUTPUT_BUFFER_BYTES + "B (write)");
 
         // 4. Start Sort
         radixSort();
@@ -83,6 +98,43 @@ public class Radix {
         tempFile.close();
         Files.delete(Paths.get(tempFileName));
     }
+
+// ------------- FROM DSA -----------------
+// private void radixSt() {
+// // Count[i] stores number of records with digit value i
+// int[] count = new int[R];
+// int i, j, rtok;
+//
+// // Buffers for I/O
+// ByteBuffer inputBlock = ByteBuffer.wrap(memoryPool, 0, HALF_POOL_SIZE);
+// ByteBuffer outputBlock = ByteBuffer.wrap(memoryPool, HALF_POOL_SIZE,
+// HALF_POOL_SIZE);
+//
+//
+// // Loop for K passes (4 passes for 32-bit key with 8-bit radix)
+// for (i = 0; i < K; i++) {
+// for (j = 0; j < R; j++) {
+// count[j] = 0;
+// } // Initialize count
+// }
+//
+// // After processing, count[j] will be index in B for first slot of
+// // bin j.
+// int total = MEMORY_POOL_SIZE;
+// for (j = R - 1; j >= 0; j--) {
+// total -= count[j];
+// count[j] = total;
+// }
+//
+// // Put records into bins, working from left to right
+// for (j = 0; j < MEMORY_POOL_SIZE; j++) {
+// B[count[(A[j] / rtok) % r]] = A[j];
+// count[(A[j] / rtok) % r] = count[(A[j] / rtok) % r] + 1;
+// }
+// for (j = 0; j < A.length; j++) {
+// A[j] = B[j];
+// } // Copy B back
+// }
 
 
     /**
@@ -199,6 +251,38 @@ public class Radix {
         statsWriter.println("Num Disk Reads: " + numReads);
         statsWriter.println("Num Disk Writes: " + numWrites);
     }
+
+// /**
+// * Flushes a single output buffer to its correct position in the output
+// * file.
+// * * @param buffer
+// * The ByteBuffer to flush
+// *
+// * @param digit
+// * The bucket index (0-255) of this buffer
+// * @param nextWritePos
+// * The array of file pointers for the *next* write
+// * @return The number of bytes written
+// * @throws IOException
+// */
+// private int flushBuffer(ByteBuffer buffer, int digit, long[] nextWritePos)
+// throws IOException {
+//
+// outputFile.seek(nextWritePos[digit]);
+// buffer.flip(); // Prepare buffer for reading (writing to channel)
+//
+// int bytesToWrite = buffer.remaining();
+//
+// // Ensure all bytes are written
+// while (buffer.hasRemaining()) {
+// outputFile.getChannel().write(buffer);
+// }
+//
+// numWrites++; // Count one logical disk write
+//
+// buffer.clear(); // Prepare buffer for writing (putting records)
+// return bytesToWrite;
+// }
 
 
     /**
