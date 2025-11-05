@@ -40,7 +40,6 @@ public class Radix {
     private RandomAccessFile tempFile; // The actual temporary file handle
     private String tempFileName = "tempfile.bin"; // Name for the temporary file
 
-
     private static final int HALF_POOL_SIZE = MEMORY_POOL_SIZE / 2;
 
     /**
@@ -150,7 +149,6 @@ public class Radix {
 
             inputFile.seek(0);
             bytesRemaining = fileSize;
-
 
             while (bytesRemaining > 0) {
                 int readSize = (int)Math.min(bytesRemaining, HALF_POOL_SIZE);
