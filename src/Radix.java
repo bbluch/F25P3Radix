@@ -40,20 +40,6 @@ public class Radix {
     private RandomAccessFile tempFile; // The actual temporary file handle
     private String tempFileName = "tempfile.bin"; // Name for the temporary file
 
-// // --- Phase 2 Buffer Configuration ---
-// // We will give each of the 256 output buffers a reasonable size
-// // (e.g., 219 records, or 1752 bytes).
-// private static final int RECORDS_PER_OUTPUT_BUFFER = 219;
-// private static final int OUTPUT_BUFFER_BYTES = RECORDS_PER_OUTPUT_BUFFER
-// * RECORD_SIZE; // 1752 bytes
-//
-// // The 256 output buffers will take up this much space
-// private static final int OUTPUT_BUFFER_POOL_SIZE = R * OUTPUT_BUFFER_BYTES;
-//
-// // The *rest* of the memory pool will be used for the single input buffer
-// // in Phase 2
-// private static final int INPUT_BUFFER_SIZE_PHASE2 = MEMORY_POOL_SIZE
-// - OUTPUT_BUFFER_POOL_SIZE; // 900,000 - 448,512 = 451,488 bytes
 
     private static final int HALF_POOL_SIZE = MEMORY_POOL_SIZE / 2;
 
@@ -161,19 +147,10 @@ public class Radix {
             }
 
             // --- Phase 2: Distribution Pass (Read from Input, Write to Output)
-            // ---
 
             inputFile.seek(0);
             bytesRemaining = fileSize;
 
-            // This array will hold a small number of records to be written to
-            // the output buffer
-            // Note: We MUST write to the destination *position*, so we can't
-            // use a simple sequential write.
-            // The most efficient and stable method requires a dedicated output
-            // block for each bucket,
-            // which exceeds the size of 'count' and is a huge $R$-way
-            // merge/buffer-pool design.
 
             while (bytesRemaining > 0) {
                 int readSize = (int)Math.min(bytesRemaining, HALF_POOL_SIZE);
