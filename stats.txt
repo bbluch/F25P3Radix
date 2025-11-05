@@ -1,5 +1,0 @@
-Sorting input.txt of size 23
-Memory Pool Size: 900000 bytes (112500 records)
-Num Disk Reads: 8
-Num Disk Writes: 8
-Time is 69
